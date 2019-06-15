@@ -9,15 +9,6 @@ class InstallCommand(install):
 
     def finalize_options(self):
         install.finalize_options(self)
-        dist = self.distribution
-        dist.packages=find_packages(exclude=[
-            'tests',
-            'tests.*',
-            'talon.signature',
-            'talon.signature.*',
-        ])
-        for not_required in ['numpy', 'scipy', 'scikit-learn==0.16.1']:
-            dist.install_requires.remove(not_required)
 
 
 setup(name='talon',
@@ -32,15 +23,17 @@ setup(name='talon',
       cmdclass={
           'install': InstallCommand,
       },
-      packages=find_packages(exclude=['tests', 'tests.*']),
+      packages=find_packages(exclude=[
+          'tests',
+          'tests.*',
+          'talon.signature',
+          'talon.signature.*',
+      ]),
       include_package_data=True,
       zip_safe=True,
       install_requires=[
           "lxml>=2.3.3",
           "regex>=1",
-          "numpy",
-          "scipy",
-          "scikit-learn==0.16.1", # pickled versions of classifier, else rebuild
           'chardet>=1.0.1',
           'cchardet>=0.3.5',
           'cssselect',
